@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="navbar"></div>
+    <div id="container">
+
+    </div>
+</body>
+</html>
+<script type="module">
+    import { navbar } from "./foodnavbar.js";
+document.getElementById("navbar").innerHTML = navbar();
+import { random,displayData,searchItem } from "./random.js";
+console.log( random("https://www.themealdb.com/api/json/v1/1/random.php"),"sukanta ")
+ random("https://www.themealdb.com/api/json/v1/1/random.php").then(res =>{
+  console.log(res);
+  displayData(res, document.getElementById("container"))
+ });
+ console.log("dee")
+ 
+ document.getElementById("searchBtn").addEventListener("click", () =>{
+    searchFood();
+ });
+
+const  searchFood = () => {
+  document.getElementById("container").innerHTML = "";
+  let queryParm= document.getElementById("searchBar").value;
+  console.log(queryParm,"QUERY");
+  searchItem('https://www.themealdb.com/api/json/v1/1/search.php?s=', queryParm).then(res => {
+        displayData(res, document.getElementById("container"))
+  });
+
+}
+
+</script>

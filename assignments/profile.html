@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="navbar"></div>
+    <div id="userDetails"></div>
+  </body>
+</html>
+
+<script type="module">
+  import { navbar } from "./foodnavbar.js";
+  document.getElementById("navbar").innerHTML = navbar();
+
+  var dataArr = JSON.parse(localStorage.getItem("profile")) || [];
+
+  console.log(dataArr);
+  document.getElementById("userDetails").innerHTML += "";
+
+  let { name, email, contact, image } = dataArr;
+  console.log(name, "sg");
+  var nam = document.createElement("h2");
+  nam.innerHTML = "Name : " + name;
+  var contactid = document.createElement("h2");
+  contactid.innerHTML = "Phone : " + contact;
+  var emailid = document.createElement("h2");
+  emailid.innerHTML = "Email : " + email;
+  var imga = document.createElement("img");
+  imga.src = image;
+  console.log(imga);
+  var div = document.createElement("div");
+  div.setAttribute("id", "card");
+
+  div.append(imga, nam, emailid, contactid);
+  document.getElementById("userDetails").append(div);
+  console.log(
+    document.getElementById("userDetails").childNodes.length,
+    "length"
+  );
+  //searching
+  import { displayData, searchItem } from "./random.js";
+
+  document.getElementById("searchBtn").addEventListener("click", () => {
+    searchFood();
+  });
+
+  const searchFood = () => {
+    document.getElementById("userDetails").innerHTML = "";
+    let queryParm = document.getElementById("searchBar").value;
+    console.log(queryParm, "QUERY");
+    searchItem(
+      "https://www.themealdb.com/api/json/v1/1/search.php?s=",
+      queryParm
+    ).then((res) => {
+      // if (document.getElementById("userDetails").childNodes.length ==1) {
+      //   document.getElementById("userDetails").style.backgroundColor="red";
+  
+      // } else {
+     
+      //   document.getElementById("userDetails").style.display="grid";
+      //   document.getElementById("userDetails").style.display="grid-template-columns: repeat(4,1fr)"
+      //   document.getElementById("userDetails").style.width="90%"
+      // }
+      displayData(res, document.getElementById("userDetails"));
+    });
+  };
+</script>
